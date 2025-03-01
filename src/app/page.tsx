@@ -10,15 +10,13 @@ import dynamic from "next/dynamic";
 import { useRef, useState, useEffect } from "react";
 import { ModalHandle } from "../components/elements/Modal";
 import UserForm from "@/components/userForm";
+import TableNotDestop from "@/components/TableNonDesktop";
 
 const Modal = dynamic(() => import("../components/elements/Modal"), { ssr: false });
 
 export default function Home() {
   const [data, setData] = useState<UserDto[]>([]);
-
   const modal = useRef<ModalHandle>(null);
-  console.log("UserForm", data);
-
   
   useEffect(() => {
     const fetchData = async () => {
@@ -53,8 +51,8 @@ export default function Home() {
           </div>
       </div>        
 
-        <TableFormat data={data}/>
-
+      <TableFormat data={data} className="desktop-only"/>
+      <TableNotDestop data={data} className="mobile-and-tablet-only"/>
     </div>
     
   );

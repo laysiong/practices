@@ -5,11 +5,53 @@
     display: flex;
 }
 
+@media screen and (min-width: 768px) {
+  .mobile-and-tablet-only {
+    display: none;
+  }
+}
+
 // Mobile utilities
 @media (max-width: 768px) {
-    .hide-on-mobile {
+    .desktop-only {
         display: none;
     }
     th.name-col { width: 40%; }
     th.email-col { width: 60%; }
 }
+
+
+.collapsible-panel {
+    overflow: hidden;
+
+    .collapsible-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px;
+        border-bottom: $standard-border; 
+
+        .title {
+            font-size: 16px;
+        }
+    }
+
+    .collapsible-header:hover {
+        background-color: rgb(var(--table-hover-bg));
+    }
+
+    .collapsible-content {
+        padding: 15px;
+        width: 100%;
+        background-color: rgb(var(--color-card));
+        border-bottom: $standard-border; 
+
+    }
+
+    .collapsible-label {
+        font-weight: bolder;
+        font-size: 16px;
+    }
+
+}
+  

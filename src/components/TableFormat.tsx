@@ -1,10 +1,10 @@
 "use client"
 import { UserDto } from "@/dto/userData"; 
 
-export default function TableFormat({data}:{data: UserDto[]}) {
+export default function TableFormat({data,className}:{data: UserDto[],className?:string}) {
 
     return (
-      <table>
+      <table className={className}>
         <thead>
           <tr>
             <th></th>
