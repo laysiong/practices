@@ -1,7 +1,7 @@
 export interface FormInputProps {
     name: string;
     type?: string;
-    value: any;
+    value: string | number;
     placeholder?: string;
     handleInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

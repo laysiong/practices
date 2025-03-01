@@ -7,7 +7,7 @@ import { ThemeToggle } from "@/components/elements/ThemeToggle";
 
 import dynamic from "next/dynamic";
 
-import { useRef, useState, useEffect,useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ModalHandle } from "../components/elements/Modal";
 import UserForm from "@/components/userForm";
 

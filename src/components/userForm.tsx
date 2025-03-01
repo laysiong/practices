@@ -2,7 +2,7 @@
 import {FormInput} from "@/components/elements/FormInputs"
 import {dataService} from "@/services/dataService"
 import {UserDto} from '@/dto/userData'
-import { useRef, Dispatch, SetStateAction, useState, useEffect} from "react";
+import { useRef, Dispatch, SetStateAction, useState} from "react";
 import { useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
 
 
@@ -34,8 +34,6 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
     const emailIsInvalid = didEdit.email 
                            && !enteredValues.email.includes('@');
 
-    const addressIsInvalid = didEdit.address
-                             && enteredValues.address.trim().length === 0;
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,7 +43,7 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         }
 
         try {
-          let response = await dataService.createData(enteredValues);
+          const response = await dataService.createData(enteredValues);
           if (response.error) {
             alert(response.error);
             return;
@@ -73,7 +71,7 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         }));
       }
     
-    function handleInputBlur(identifier:any) {
+    function handleInputBlur(identifier: keyof typeof enteredValues) {
         setDidEdit((prevEdit) => ({
             ...prevEdit,
             [identifier]: true,
@@ -81,7 +79,7 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
     }
 
     const handleOnPlacesChanged = () => {
-        let places = inputref.current?.getPlaces();
+        const places = inputref.current?.getPlaces();
         if (places && places.length > 0) {
             // Update your form state with the selected address
             setEnteredValues(prev => ({

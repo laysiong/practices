@@ -20,8 +20,7 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 export function ThemeProvider({
   children,
   defaultTheme = "system",
-  storageKey = "theme",
-  ...props
+  storageKey = "theme"
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme)
   const [mounted, setMounted] = useState(false)
