@@ -13,7 +13,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Display JSON data in a table
 - Add new entries
 - Form field validation
-  - email vadidation (include @)
+  - email validation (include @)
   - check if user existed
   - input required
 - Data submission to "backend"
@@ -23,7 +23,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
   - **Mobile:** 320px - 480px
   - **Tablet:** 481px - 768px
   - **Desktops** 1025px+
-- tested npm run build and npm run start (works)
+- Tested npm run build and npm run start (works)
 
 ### Clone the Repository
 ```bash
