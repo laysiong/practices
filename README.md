@@ -7,21 +7,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - **React.js v19**
 - **Tailwind CSS v4**
 - **TypeScript**
+- **SASS**
 
 ## Features Covered
 - Display JSON data in a table
 - Add new entries
 - Form field validation
+  - email vadidation (include @)
+  - check if user existed
+  - input required
 - Data submission to "backend"
 - Toggle between light and dark mode
-- Usage of Google Places API
+- Usage of Google Places API (To suggest location)
 - Responsive design for multiple screen sizes:
   - **Mobile:** 320px - 480px
   - **Tablet:** 481px - 768px
-  - **Small laptops/desktops:** 769px - 1024px
-  - **Desktops/large screens:** 1025px+
-
-## Getting Started
+  - **Desktops** 1025px+
+- tested npm run build and npm run start (works)
 
 ### Clone the Repository
 ```bash
