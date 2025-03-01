@@ -9,7 +9,17 @@ export const dataService = {
     },
 
     checkUser(email) {
-        return userData.find(user => user.email === email);
+        if (!email) return false;
+        const normalizedEmail = email.toLowerCase().trim();
+        const existingUser = userData.find(user => 
+            user.email && user.email.toLowerCase().trim() === normalizedEmail
+        );
+        return !!existingUser; // Convert to boolean
+    },
+
+    addUser(user) {
+        userData.push(user);
+        return userData;
     },
 
     createData(data) {
@@ -19,9 +29,12 @@ export const dataService = {
             return {results:false, error: "User already exists"};
         }
 
-        data.id = uuidv4();
-        userData.push(data);
-        return { data: data };
+        const newUser = {
+            ...data,
+            id: uuidv4(),
+        }
+
+        return { results: true, data: newUser };
     }
 
 }

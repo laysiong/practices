@@ -1,3 +1,5 @@
+import ErrorMsg from "./ErrorMsg";
+
 export interface FormInputProps {
     name: string;
     type?: string;
@@ -23,9 +25,7 @@ export function FormInput({name, type = "text", value, placeholder, handleInputB
                     onChange={handleInputChange} 
                     required={required} />
 
-            <div className="control-error">
-                {errorMsg && <p>{errorMsg}</p>}
-            </div>
+            {errorMsg && <ErrorMsg errorMsg={errorMsg}/>}
         </div>
     )
 }

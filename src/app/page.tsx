@@ -17,13 +17,13 @@ export default function Home() {
   const [data, setData] = useState<UserDto[]>([]);
 
   const modal = useRef<ModalHandle>(null);
+  console.log("UserForm", data);
 
   
   useEffect(() => {
     const fetchData = async () => {
       const response = await dataService.getData();
       setData(response);
-      console.log(response);
     };
     fetchData();
   }, []);
@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div className="container ">
       <div className="header-container">
-        <p>User Profile</p>
+        <p>Users Profile</p>
       
         <div className="actionbar set-left">
           <ThemeToggle />

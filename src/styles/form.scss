@@ -32,11 +32,13 @@
     }
   }
   
-  .control-error {
+  .error-msg {
     color: #e53e3e; // Red that works in both light/dark modes
     font-size: 12px;
     font-style: italic;
     margin-top: 4px;
   }
   
-  
+  .error-msg-title {
+    font-size: 21px;
+  }

@@ -1,5 +1,7 @@
 
 import {FormInput} from "@/components/elements/FormInputs"
+import ErrorMsg from "./elements/ErrorMsg";
+
 import {dataService} from "@/services/dataService"
 import {UserDto} from '@/dto/userData'
 import { useRef, Dispatch, SetStateAction, useState} from "react";
@@ -12,7 +14,6 @@ export interface UserFormProps {
 }
 
 export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) {
-
     const inputref = useRef<google.maps.places.SearchBox | null>(null);
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -31,9 +32,10 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         address: false,
     });
 
+    const [error, setError] = useState<string | null>(null);
+
     const emailIsInvalid = didEdit.email 
                            && !enteredValues.email.includes('@');
-
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,13 +47,15 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         try {
           const response = await dataService.createData(enteredValues);
           if (response.error) {
-            alert(response.error);
+            setError(response.error);
             return;
           }
-                    
+           
           // Use functional update pattern instead of direct state access
-          setData((prevData) => [...prevData, response.data]);
-          
+          setData(prevData => [...prevData, response.data]);
+          dataService.addUser(response.data);
+
+
           (e.target as HTMLFormElement).reset();
           handleCloseAddGoals();
         } catch (error) {
@@ -90,7 +94,8 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
     }
     return (
         <form className="userform" onSubmit={(e) => handleSubmit(e)}>
-
+            {error && <ErrorMsg errorMsg={error} className="error-msg-title "/>}
+            
             <FormInput name="name" value={enteredValues.name} placeholder="Enter Name"
                     handleInputChange={(e) => handleInputChange('name', e.target.value)}
                     required={true}/>
