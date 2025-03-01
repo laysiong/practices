@@ -1,0 +1,13 @@
+1.display JSON data in table
+2.able to add item (open forms and allow input data)
+3.validaiton on forms
+4.form have validaiton
+5.submitted data should refect back on table
+6.light mode and dark mode 
+7.ui setting cached on browser
+8.external usage of other api to add function
+9.responseive design
+
+Bonus: deploy on cloud
+Else: write up the process of dploying to cloud
+

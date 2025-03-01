@@ -1,0 +1,39 @@
+@use './variables' as *;
+
+.button-border {
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  
+  span {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.button-styling {
+  padding: 10px;
+  gap: 5px;
+  background: $grey-90;
+  font-size: $goal-item-font-size;
+  font-weight: 400;
+  box-sizing: border-box;
+  color: black;
+}
+
+button {
+  &:hover {
+    background: $grey-80;
+  }
+  
+  &.primary {
+    background-color: rgb(var(--button-bg));
+    color: rgb(var(--button-text));
+    border: 1px solid rgb(var(--button-border));
+    
+    &:hover {
+      background-color: rgb(var(--button-hover));
+    }
+  }
+}

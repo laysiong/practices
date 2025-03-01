@@ -1,0 +1,43 @@
+@use './variables' as *;
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    
+    // Darker backdrop in light mode
+    .dark & {
+        background: rgba(0, 0, 0, 0.75);
+    }
+}
+
+
+.modal {
+    background-color: rgb(var(--color-card));
+    color: rgb(var(--color-foreground));
+    border: 1px solid rgba(var(--color-card-border), 1);
+    border-radius: 8px;
+    padding: 20px;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 101;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+
+    /** RESPONSIVE SIZING **/
+    width: 90vw;  
+    max-width: 500px; 
+    min-width: 280px; 
+    max-height: 90vh; 
+
+    animation: slide-down-fade-in 0.3s ease-out forwards;
+
+}

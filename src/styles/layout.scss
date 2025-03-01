@@ -1,0 +1,41 @@
+@use './variables' as *;
+
+.container {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  margin: 0 auto;
+  
+  width: 100%;
+  min-width: 320px;
+  
+  height: 100dvh;
+  min-height: 0; 
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+}
+
+.header-container {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid rgba(var(--color-card-border), 1);
+  
+  p {
+      font-size: 32px;
+      font-weight: bold;
+      color: rgb(var(--color-foreground));
+  }
+}
+
+.actionbar {
+  display: flex;
+  gap: $standard-spacing;
+}
+
+
+

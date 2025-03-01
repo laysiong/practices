@@ -1,0 +1,47 @@
+
+$grey-80: #cccccc;
+$grey-90 : #e6e6e6;
+
+$goal-item-font-size: 18px;
+$standard-border: 2px solid $grey-80;
+$standard-spacing: 1rem;
+
+
+:root {
+    --color-background: 255, 255, 255;   /* white */
+    --color-foreground: 17, 24, 39;      /* gray-900 */
+    --color-primary: 79, 70, 229;        /* indigo-600 */
+    --color-card: 249, 250, 251;         /* gray-50 */
+    --color-card-border: 229, 231, 235;  /* gray-200 */
+    --color-muted: 107, 114, 128;        /* gray-500 */
+    
+    /* Table-specific colors */
+    --table-header-bg: 245, 245, 245;    /* #f5f5f5 */
+    --table-stripe-bg: 249, 249, 249;    /* #f9f9f9 */
+    --table-hover-bg: 234, 234, 234;     /* #eaeaea */
+    
+    /* Button colors */
+    --button-bg: 99, 102, 241;        /* indigo-500 */
+    --button-hover: 79, 70, 229;      /* indigo-600 (slightly darker) */
+    --button-border: 99, 102, 241;    /* indigo-500 */
+  }
+  
+.dark {
+    --color-background: 17, 24, 39;      /* gray-900 */
+    --color-foreground: 243, 244, 246;   /* gray-100 */
+    --color-primary: 129, 140, 248;      /* indigo-400 */
+    --color-card: 31, 41, 55;            /* gray-800 */
+    --color-card-border: 55, 65, 81;     /* gray-700 */
+    --color-muted: 156, 163, 175;        /* gray-400 */
+    
+    /* Dark mode table-specific colors */
+    --table-header-bg: 43, 48, 62;       /* #2b303e - darker than card */
+    --table-stripe-bg: 39, 45, 58;       /* #272d3a - slightly darker */
+    --table-hover-bg: 55, 65, 81;        /* gray-700 - lighter for contrast */
+    
+    /* Dark mode button colors */
+    --button-bg: 99, 102, 241;        /* indigo-500 */
+    --button-hover: 129, 140, 248;    /* indigo-400 (slightly lighter) */
+    --button-border: 99, 102, 241;    /* indigo-500 */
+  }
+  

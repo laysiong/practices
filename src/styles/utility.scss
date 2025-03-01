@@ -1,0 +1,15 @@
+@use './variables' as *;
+
+.set-left {
+    margin-left: auto;
+    display: flex;
+}
+
+// Mobile utilities
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none;
+    }
+    th.name-col { width: 40%; }
+    th.email-col { width: 60%; }
+}

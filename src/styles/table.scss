@@ -1,0 +1,44 @@
+@use './variables' as *;
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0; 
+  border-radius: 8px;
+  border: $standard-border; 
+  background-color: rgb(var(--color-card));
+  color: rgb(var(--color-foreground));
+  
+  @media (max-width: 768px) {
+    .narrow-on-tablet {
+      width: 80px;
+    }
+  }
+  
+  thead {
+    background-color: rgb(var(--table-header-bg));
+    
+    th {
+      border-bottom: $standard-border;
+      padding: 12px;
+      text-align: left;
+    }
+  }
+  
+  td {
+    border-bottom: $standard-border;
+    padding: 12px;
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: rgb(var(--table-stripe-bg));
+  }
+  
+  tbody tr:hover {
+    background-color: rgb(var(--table-hover-bg));
+  }
+}

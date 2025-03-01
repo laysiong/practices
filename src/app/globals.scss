@@ -1,0 +1,18 @@
+@use '../styles/variables' as *;
+@use '../styles/table';
+@use '../styles/button';
+@use '../styles/modal';
+@use'../styles/utility';
+@use '../styles/layout';
+@use '../styles/form.scss';
+@use 'tailwindcss';
+
+// Basic resets and globals
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-geist-sans);
+}

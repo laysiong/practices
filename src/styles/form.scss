@@ -1,0 +1,42 @@
+@use './variables' as *;
+
+.userform {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+    text-transform: capitalize;
+}
+  
+  input, select, textarea {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(var(--color-card-border), 1);
+    background-color: rgb(var(--color-card));
+    color: rgb(var(--color-foreground));
+    width: 100%;
+
+    &:focus {
+        outline: 2px solid rgba(var(--color-primary), 0.5);
+        outline-offset: 1px;
+        border-color: rgba(var(--color-primary), 0.8);
+    }
+    
+    .dark & {
+        background-color: rgba(var(--color-card), 0.8);
+    }
+  }
+  
+  .control-error {
+    color: #e53e3e; // Red that works in both light/dark modes
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 4px;
+  }
+  
+  
