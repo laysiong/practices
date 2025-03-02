@@ -5,14 +5,11 @@ import {dataService} from "@/services/dataService"
 import {UserDto} from '@/dto/userData'
 import { ThemeToggle } from "@/components/elements/ThemeToggle";
 
-import dynamic from "next/dynamic";
-
 import { useRef, useState, useEffect } from "react";
 import { ModalHandle } from "../components/elements/Modal";
 import UserForm from "@/components/userForm";
 import TableNotDestop from "@/components/TableNonDesktop";
-
-const Modal = dynamic(() => import("../components/elements/Modal"), { ssr: false });
+import Modal from "../components/elements/Modal";
 
 export default function Home() {
   const [data, setData] = useState<UserDto[]>([]);
@@ -34,9 +31,11 @@ export default function Home() {
       modal.current?.open();
   }
 
- 
+  //TableFormat, currently i did not set up pagination yet.
+
   return (
     <div className="container ">
+
       <div className="header-container">
         <p>Users Profile</p>
       
@@ -47,12 +46,16 @@ export default function Home() {
           </Modal>
           <button
             className="button-styling button-border bg-white" 
-            onClick={handleOpenAddGoals}>Add New</button>
-          </div>
+            onClick={handleOpenAddGoals}>
+              Add New
+          </button>
+        </div>
       </div>        
 
+      {/* handle Desktop or Mobile And Tablet */}
       <TableFormat data={data} className="desktop-only"/>
-      <TableNotDestop data={data} className="mobile-and-tablet-only"/>
+      <TableNotDestop data={data} className="mobile-and-tablet-only top-border"/>
+      
     </div>
     
   );

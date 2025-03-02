@@ -20,7 +20,7 @@
     background-color: rgb(var(--color-card));
     color: rgb(var(--color-foreground));
     border: 1px solid rgba(var(--color-card-border), 1);
-    border-radius: 8px;
+    border-radius: $standard-border-raduis;
     padding: 20px;
     top: 0;
     left: 0;

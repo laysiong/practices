@@ -20,6 +20,9 @@
     th.email-col { width: 60%; }
 }
 
+.top-border{
+    border-top: $standard-border;
+}
 
 .collapsible-panel {
     overflow: hidden;
@@ -54,4 +57,4 @@
     }
 
 }
-  
+

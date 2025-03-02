@@ -15,6 +15,8 @@ export interface UserFormProps {
 
 export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) {
     const inputref = useRef<google.maps.places.SearchBox | null>(null);
+    
+    //Google Place API loader
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -32,6 +34,7 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         address: false,
     });
 
+    // Error state after subbmitting the form
     const [error, setError] = useState<string | null>(null);
 
     const emailIsInvalid = didEdit.email 
@@ -50,20 +53,24 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
             setError(response.error);
             return;
           }
-           
-          // Use functional update pattern instead of direct state access
+        
+          // Update the state with the new data
           setData(prevData => [...prevData, response.data]);
-          dataService.addUser(response.data);
 
+          // Add the new user to the local storage
+          // I was facinmg some issue with the local storage, i had to addUser here instead.
+          // If i  will add it in the dataService, it will have duplicate data for first attempt.
+          // Rest of the Attempt it will work fine.
+          dataService.addUser(response.data);
 
           (e.target as HTMLFormElement).reset();
           handleCloseAddGoals();
         } catch (error) {
           console.error("Error submitting form:", error);
         }
-      // Remove data from the dependency array since we're using functional updates
     }
 
+    // A general function to handle input change
     function handleInputChange(identifier: keyof typeof enteredValues, value: string) {
         setEnteredValues((prevValues) => ({
           ...prevValues,
@@ -75,6 +82,7 @@ export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) 
         }));
       }
     
+    // A general function to handle input blur
     function handleInputBlur(identifier: keyof typeof enteredValues) {
         setDidEdit((prevEdit) => ({
             ...prevEdit,

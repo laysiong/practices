@@ -15,7 +15,7 @@
   
   input, select, textarea {
     padding: 8px 12px;
-    border-radius: 6px;
+    border-radius: $standard-border-raduis;
     border: 1px solid rgba(var(--color-card-border), 1);
     background-color: rgb(var(--color-card));
     color: rgb(var(--color-foreground));
