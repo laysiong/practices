@@ -15,7 +15,7 @@ export interface UserFormProps {
 
 export default function UserForm({setData, handleCloseAddGoals}: UserFormProps) {
     const inputref = useRef<google.maps.places.SearchBox | null>(null);
-    
+
     //Google Place API loader
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
