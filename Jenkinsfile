@@ -1,44 +1,60 @@
 pipeline {
     agent any
 
-     environment {
-        DOCKER_IMAGE = 'laysiong/my-app:latest'
-        REMOTE_USER = 'root'
-        REMOTE_HOST = '152.42.251.131'
-        SSH_KEY = credentials('your-ssh-private-key-id') // Add this in Jenkins credentials
+    environment {
+        IMAGE_NAME = 'laysiong/my-app'
     }
 
     stages {
-        stage('Build') {
+
+        stage('Checkout Code') {
             steps {
-                echo 'Building the app...'
-                sh 'docker build -t $DOCKER_IMAGE .'
+                checkout scm
             }
         }
+        
 
-        stage('Push to Docker Hub') {
+        stage('Build App Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds-id', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push $DOCKER_IMAGE
-                    '''
+                script {
+                    echo "Building Docker image..."
+                    dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
         }
 
-        stage('Deploy to Droplet') {
+
+        stage('Upload App Image') {
             steps {
-                echo 'Deploying to DigitalOcean...'
-                sh '''
-                    ssh -i $SSH_KEY -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST << EOF
-                    docker pull $DOCKER_IMAGE
-                    docker stop yourapp || true
-                    docker rm yourapp || true
-                    docker run -d --name yourapp -p 80:80 $DOCKER_IMAGE
-                    EOF
-                '''
+                script {
+                    echo "Pushing Docker image..."
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        dockerImage.push("${BUILD_NUMBER}")
+                        dockerImage.push("latest")
+                    }
+                }
             }
         }
+
+        // stage('Cleanup Docker') {
+        //     steps {
+        //         script {
+        //             sh 'docker system prune -f'
+        //         }
+        //     }
+        // }
+
+        // stage('Deploy App') {
+        //     steps {
+        //         script {
+        //             // Stop + remove old container, then run new one
+        //             sh """
+        //             docker stop my-running-app || true
+        //             docker rm my-running-app || true
+        //             docker run -d --name my-running-app -p 80:3000 ${IMAGE_NAME}:latest
+        //             """
+        //         }
+        //     }
+        // }
     }
 }
