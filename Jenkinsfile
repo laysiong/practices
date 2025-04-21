@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image..."
-                    dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "-f Dockerfile .")
+                    dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
                 }
             }
         }
@@ -56,5 +56,14 @@ pipeline {
         //         }
         //     }
         // }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment pipeline completed successfully!"
+        }
+        failure {
+            echo "❌ Something went wrong!"
+        }
     }
 }
