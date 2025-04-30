@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'laysiong/my-app'
-        DOCKER_HUB_CREDS = credentials('your-dockerhub-credentials-id')
+        DOCKER_HUB_CREDS = credentials('dockerhub-credentials')
     }
 
     stages {
