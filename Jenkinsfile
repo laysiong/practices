@@ -20,11 +20,11 @@ pipeline {
                     // Check if we should deploy
                     if (commitMessage.toLowerCase().contains("deploy")) {
                         echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
-                        env.SHOULD_DEPLOY = "true"
+                        env.SHOULD_DEPLOY = true
                         echo "Set SHOULD_DEPLOY to: ${env.SHOULD_DEPLOY}"
                     } else {
                         echo "No deploy flag in commit message. Will skip deployment."
-                        env.SHOULD_DEPLOY = "false"
+                        env.SHOULD_DEPLOY = false
                     }
                 }  // Close the script block
             }
@@ -42,7 +42,7 @@ pipeline {
         when {
             expression { 
                 echo "SHOULD_DEPLOY when evaluating condition: ${env.SHOULD_DEPLOY}"
-                return env.SHOULD_DEPLOY == "true" 
+                return env.SHOULD_DEPLOY == true
             }
         }
         stages{
