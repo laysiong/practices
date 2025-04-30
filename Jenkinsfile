@@ -31,10 +31,10 @@ pipeline {
        stage('Build Docker Image') {
             steps {
                 script {
-
                     // Build the Docker image
-                    docker.build("${IMAGE_NAME}:latest")
-                    
+                    sh "echo 'Starting Docker build at $(date)'"
+                    def dockerImage = docker.build("${IMAGE_NAME}:latest", "--no-cache .")
+                    sh "echo 'Finished Docker build at $(date)'"
                 }
             }
         }
@@ -43,18 +43,27 @@ pipeline {
         stage('Upload App Image') {
             steps {
                 script {
-                    echo "Pushing Docker image..."
+                     // Login to Docker Hub (you'll need to configure credentials in Jenkins)
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+                    }
+                    
+                    // Push the image
+                    sh "docker push ${IMAGE_NAME}:latest"
+                    
+                    // Logout for security
+                    sh "docker logout"
                 }
             }
         }
 
-        // stage('Cleanup Docker') {
-        //     steps {
-        //         script {
-        //             sh 'docker system prune -f'
-        //         }
-        //     }
-        // }
+        stage('Cleanup Docker') {
+            steps {
+                script {
+                    sh 'docker system prune -f'
+                }
+            }
+        }
 
         // stage('Deploy App') {
         //     steps {
@@ -76,6 +85,11 @@ pipeline {
         }
         failure {
             echo "❌ Something went wrong!"
+        }
+        always {
+            // Always logout from Docker for security
+            sh 'docker logout || true'
+            echo "🔒 Docker logout performed"
         }
     }
 }
