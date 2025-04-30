@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    // Define a parameter instead of environment variable for this flag
-    parameters {
-        booleanParam(defaultValue: false, description: 'Whether to deploy', name: 'SHOULD_DEPLOY')
-    }
     environment {
         IMAGE_NAME = 'laysiong/my-app'
     }
@@ -20,33 +16,19 @@ pipeline {
                     def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
                     echo "Commit messages: ${commitMessage}"
                     
-                    // Check if we should deploy
-                    if (commitMessage.toLowerCase().contains("deploy")) {
-                        echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
-                        currentBuild.rawBuild.getAction(ParametersAction.class).createUpdated([
-                            new BooleanParameterValue('SHOULD_DEPLOY', true)
-                        ])
-                        echo "Set SHOULD_DEPLOY to: ${env.SHOULD_DEPLOY}"
-                    } else {
-                        echo "No deploy flag in commit message. Will skip deployment."
-                    }
-                }  // Close the script block
+                    // Store the deployment decision in a variable (NOT environment variable)
+                    shouldDeploy = commitMessage.toLowerCase().contains("deploy")
+                    echo "Should deploy? ${shouldDeploy}"
+                }  
             }
         }
 
-    stage('Debug') {
-        steps {
-            script {
-                echo "SHOULD_DEPLOY value before Build and Deploy stage: ${params.SHOULD_DEPLOY}"
-            }
-        }
-    }
-        
     stage('Build and Deploy') {
         when {
             expression { 
-                echo "SHOULD_DEPLOY when evaluating condition: ${params.SHOULD_DEPLOY}"
-                return params.SHOULD_DEPLOY == true
+                // Reference the variable we created in the previous stage
+                echo "Should deploy? ${shouldDeploy}"
+                return shouldDeploy 
             }
         }
         stages{
