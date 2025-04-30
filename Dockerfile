@@ -4,7 +4,7 @@ FROM node:lts-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --progress --verbose
+RUN npm ci 
 
 COPY . .
 

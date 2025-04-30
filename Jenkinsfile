@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'KEY_FILE')]) {
-                    def ec2Instance = 'ubuntu@your-ec2-ip-address'
+                    def ec2Instance = 'ubuntu@ec2-18-141-25-61.ap-southeast-1.compute.amazonaws.com'
                     
                     sh """
                         ssh -o StrictHostKeyChecking=no -i ${KEY_FILE} ${ec2Instance} '
