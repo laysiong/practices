@@ -1,9 +1,12 @@
 pipeline {
     agent any
 
+    // Define a parameter instead of environment variable for this flag
+    parameters {
+        booleanParam(defaultValue: false, description: 'Whether to deploy', name: 'SHOULD_DEPLOY')
+    }
     environment {
         IMAGE_NAME = 'laysiong/my-app'
-        SHOULD_DEPLOY = false
     }
 
     stages {
@@ -20,9 +23,9 @@ pipeline {
                     // Check if we should deploy
                     if (commitMessage.toLowerCase().contains("deploy")) {
                         echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
-                        environment {
-                            SHOULD_DEPLOY = 'true'
-                        }
+                        currentBuild.rawBuild.getAction(ParametersAction.class).createUpdated([
+                            new BooleanParameterValue('SHOULD_DEPLOY', true)
+                        ])
                         echo "Set SHOULD_DEPLOY to: ${env.SHOULD_DEPLOY}"
                     } else {
                         echo "No deploy flag in commit message. Will skip deployment."
@@ -34,7 +37,7 @@ pipeline {
     stage('Debug') {
         steps {
             script {
-                echo "SHOULD_DEPLOY value before Build and Deploy stage: ${env.SHOULD_DEPLOY}"
+                echo "SHOULD_DEPLOY value before Build and Deploy stage: ${params.SHOULD_DEPLOY}"
             }
         }
     }
@@ -42,8 +45,8 @@ pipeline {
     stage('Build and Deploy') {
         when {
             expression { 
-                echo "SHOULD_DEPLOY when evaluating condition: ${env.SHOULD_DEPLOY}"
-                return env.SHOULD_DEPLOY == "true" 
+                echo "SHOULD_DEPLOY when evaluating condition: ${params.SHOULD_DEPLOY}"
+                return params.SHOULD_DEPLOY == true
             }
         }
         stages{
