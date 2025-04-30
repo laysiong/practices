@@ -37,7 +37,7 @@ export default function Home() {
     <div className="container ">
 
       <div className="header-container">
-        <p>Users Profile Test 2</p>
+        <p>Users Profile Test</p>
       
         <div className="actionbar set-left">
           <ThemeToggle />
