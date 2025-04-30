@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:latest'
+        }
+    }
 
     environment {
         IMAGE_NAME = 'laysiong/my-app'
@@ -19,14 +23,11 @@ pipeline {
                 script {
 
                     // Build the Docker image
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    docker.build("${IMAGE_NAME}:latest")
                     
-                    // Log in to Docker Hub (if pushing to Docker Hub)
-                    withCredentials([usernamePassword(credentialsId: 'your-dockerhub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) { // Replace with your Docker Hub credentials ID
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                        
-                        // Push the Docker image to Docker Hub
-                        sh "docker push ${IMAGE_NAME}:latest"
+                     // For push
+                    docker.withRegistry('https://registry.hub.docker.com', 'your-dockerhub-credentials-id') {
+                        docker.image("${IMAGE_NAME}:latest").push()
                     }
                 }
             }
