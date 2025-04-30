@@ -1,12 +1,9 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:latest'
-        }
-    }
+    agent any
 
     environment {
         IMAGE_NAME = 'laysiong/my-app'
+        DOCKER_HUB_CREDS = credentials('your-dockerhub-credentials-id')
     }
 
     stages {
@@ -21,14 +18,14 @@ pipeline {
        stage('Build Docker Image') {
             steps {
                 script {
-
                     // Build the Docker image
-                    docker.build("${IMAGE_NAME}:latest")
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
                     
-                     // For push
-                    docker.withRegistry('https://registry.hub.docker.com', 'your-dockerhub-credentials-id') {
-                        docker.image("${IMAGE_NAME}:latest").push()
-                    }
+                    // Login to Docker Hub
+                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
+                    
+                    // Push the image
+                    sh "docker push ${IMAGE_NAME}:latest"
                 }
             }
         }
@@ -70,6 +67,10 @@ pipeline {
         }
         failure {
             echo "❌ Something went wrong!"
+        }
+        always {
+            // Always logout from Docker
+            sh 'docker logout'
         }
     }
 }
