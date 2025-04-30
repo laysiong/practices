@@ -45,7 +45,9 @@ pipeline {
                 script {
                      // Login to Docker Hub (you'll need to configure credentials in Jenkins)
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+                        sh '''
+                                echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                            '''
                     }
                     
                     // Push the image
@@ -65,18 +67,31 @@ pipeline {
             }
         }
 
-        // stage('Deploy App') {
-        //     steps {
-        //         script {
-        //             // Stop + remove old container, then run new one
-        //             sh """
-        //             docker stop my-running-app || true
-        //             docker rm my-running-app || true
-        //             docker run -d --name my-running-app -p 80:3000 ${IMAGE_NAME}:latest
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Deploy App') {
+            steps {
+                script {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'KEY_FILE')]) {
+                    def ec2Instance = 'ubuntu@your-ec2-ip-address'
+                    
+                    sh """
+                        ssh -o StrictHostKeyChecking=no -i ${KEY_FILE} ${ec2Instance} '
+                        # Pull latest image
+                        docker pull ${IMAGE_NAME}:latest
+                        echo "Pulled latest image"
+
+                        # Stop and remove existing container
+                        docker stop my-running-app || true
+                        docker rm my-running-app || true
+                        
+                        # Run new container
+                        docker run -d --name my-running-app -p 80:3000 --restart unless-stopped ${IMAGE_NAME}:latest
+                        echo "Deployed new container"
+                        '
+                        """
+                    }
+                }
+            }
+        }
     }
 
     post {
