@@ -10,19 +10,21 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                checkout scm
+                script {  // Add this script block
+                    checkout scm
 
-               // Extract commit message
-                def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-                echo "Commit message: ${commitMessage}"
-                
-                // Check if we should deploy
-                if (commitMessage.toLowerCase().contains("deploy")) {
-                    echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
-                    env.SHOULD_DEPLOY = "true"
-                } else {
-                    echo "No deploy flag in commit message. Will skip deployment."
-                }
+                    // Extract commit message
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    echo "Commit messages: ${commitMessage}"
+                    
+                    // Check if we should deploy
+                    if (commitMessage.toLowerCase().contains("deploy")) {
+                        echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
+                        env.SHOULD_DEPLOY = "true"
+                    } else {
+                        echo "No deploy flag in commit message. Will skip deployment."
+                    }
+                }  // Close the script block
             }
         }
         
