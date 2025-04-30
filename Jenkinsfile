@@ -31,10 +31,10 @@ pipeline {
        stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh "echo 'Starting Docker build at $(date)'"
+                  
+                    echo "Starting Docker build"
                     def dockerImage = docker.build("${IMAGE_NAME}:latest", "--no-cache .")
-                    sh "echo 'Finished Docker build at $(date)'"
+                    echo "Finished Docker build"
                 }
             }
         }
