@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'laysiong/my-app'
-        DOCKER_HUB_CREDS = credentials('dockerhub-credentials')
     }
 
     stages {
@@ -14,18 +13,28 @@ pipeline {
             }
         }
         
+        stage('Test Docker Plugin') {
+            steps {
+                script {
+                    // Test if Docker plugin is working
+                    echo "Testing Docker plugin..."
+                    
+                    // Using Docker plugin syntax
+                    docker.image('hello-world').run()
+                    
+                    // Or check Docker version
+                    sh "docker --version"
+                }
+            }
+        }
 
        stage('Build Docker Image') {
             steps {
                 script {
+
                     // Build the Docker image
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    docker.build("${IMAGE_NAME}:latest")
                     
-                    // Login to Docker Hub
-                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
-                    
-                    // Push the image
-                    sh "docker push ${IMAGE_NAME}:latest"
                 }
             }
         }
@@ -67,10 +76,6 @@ pipeline {
         }
         failure {
             echo "❌ Something went wrong!"
-        }
-        always {
-            // Always logout from Docker
-            sh 'docker logout'
         }
     }
 }
