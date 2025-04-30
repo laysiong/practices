@@ -14,10 +14,20 @@ pipeline {
         }
         
 
-        stage('Build App Image') {
+       stage('Build Docker Image') {
             steps {
                 script {
-                    echo "Building Docker image..."
+
+                    // Build the Docker image
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    
+                    // Log in to Docker Hub (if pushing to Docker Hub)
+                    withCredentials([usernamePassword(credentialsId: 'your-dockerhub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) { // Replace with your Docker Hub credentials ID
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                        
+                        // Push the Docker image to Docker Hub
+                        sh "docker push ${IMAGE_NAME}:latest"
+                    }
                 }
             }
         }
