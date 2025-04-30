@@ -14,7 +14,7 @@ pipeline {
 
                // Extract commit message
                 def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-                echo "Commit messages: ${commitMessage}"
+                echo "Commit message: ${commitMessage}"
                 
                 // Check if we should deploy
                 if (commitMessage.toLowerCase().contains("deploy")) {
