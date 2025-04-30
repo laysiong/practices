@@ -21,16 +21,29 @@ pipeline {
                     if (commitMessage.toLowerCase().contains("deploy")) {
                         echo "Deploy flag detected in commit message. Will run full pipeline with deployment."
                         env.SHOULD_DEPLOY = "true"
+                        echo "Set SHOULD_DEPLOY to: ${env.SHOULD_DEPLOY}"
                     } else {
                         echo "No deploy flag in commit message. Will skip deployment."
+                        env.SHOULD_DEPLOY = "false"
                     }
                 }  // Close the script block
             }
         }
+
+    stage('Debug') {
+        steps {
+            script {
+                echo "SHOULD_DEPLOY value before Build and Deploy stage: ${env.SHOULD_DEPLOY}"
+            }
+        }
+    }
         
     stage('Build and Deploy') {
         when {
-            expression { return env.SHOULD_DEPLOY == "true" }
+            expression { 
+                echo "SHOULD_DEPLOY when evaluating condition: ${env.SHOULD_DEPLOY}"
+                return env.SHOULD_DEPLOY == "true" 
+            }
         }
         stages{
             stage('Build Docker Image') {
